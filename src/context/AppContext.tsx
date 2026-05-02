@@ -28,9 +28,11 @@ interface AppContextValue {
   confirmThirdPlace: () => void;
   goBackToGroups: () => void;
   pickMatchWinner: (matchId: string, winnerId: string) => void;
+  setMatchScore: (matchId: string, score1: number | null, score2: number | null, penaltyWinnerId?: string | null) => void;
   goToShare: () => void;
   resetApp: () => void;
   recomputeBracket: () => void;
+  loadBracket: (newState: AppState) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -266,9 +268,70 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const pickMatchWinner = useCallback((matchId: string, winnerId: string) => {
     setState(prev => {
       const newMatches = { ...prev.matches };
-      newMatches[matchId] = { ...newMatches[matchId], winnerId };
+      const currentMatch = newMatches[matchId];
+      // Clear score data if the winner changed
+      if (currentMatch.winnerId !== winnerId) {
+        newMatches[matchId] = { ...currentMatch, winnerId, score1: null, score2: null, isDraw: false, penaltyWinnerId: null };
+      } else {
+        newMatches[matchId] = { ...currentMatch, winnerId };
+      }
 
       // Propagate: update downstream match slots
+      for (const [upMatchId, [feed1, feed2]] of Object.entries(BRACKET_FEED)) {
+        const winner1 = newMatches[feed1]?.winnerId ?? null;
+        const winner2 = newMatches[feed2]?.winnerId ?? null;
+        newMatches[upMatchId] = {
+          ...newMatches[upMatchId],
+          slot1: { teamId: winner1, source: `Winner ${feed1}` },
+          slot2: { teamId: winner2, source: `Winner ${feed2}` },
+        };
+      }
+
+      // 3PO: SF losers
+      const sf1 = newMatches['SF1'];
+      const sf2 = newMatches['SF2'];
+      const sf1Loser = sf1.winnerId
+        ? (sf1.winnerId === sf1.slot1.teamId ? sf1.slot2.teamId : sf1.slot1.teamId)
+        : null;
+      const sf2Loser = sf2.winnerId
+        ? (sf2.winnerId === sf2.slot1.teamId ? sf2.slot2.teamId : sf2.slot1.teamId)
+        : null;
+      newMatches['3PO'] = {
+        ...newMatches['3PO'],
+        slot1: { teamId: sf1Loser, source: 'SF1 Loser' },
+        slot2: { teamId: sf2Loser, source: 'SF2 Loser' },
+      };
+
+      return { ...prev, matches: newMatches };
+    });
+  }, []);
+
+  const setMatchScore = useCallback((matchId: string, score1: number | null, score2: number | null, penaltyWinnerId?: string | null) => {
+    setState(prev => {
+      const newMatches = { ...prev.matches };
+      const match = newMatches[matchId];
+      const isDraw = score1 !== null && score2 !== null && score1 === score2;
+
+      let winnerId = match.winnerId;
+      if (isDraw) {
+        // On a draw, winner is determined by penalty selection;
+        // keep existing winnerId if no penalty pick yet (so the UI stays visible)
+        winnerId = penaltyWinnerId ?? match.winnerId;
+      } else if (score1 !== null && score2 !== null) {
+        // Non-draw with scores: winner is the higher-scoring team
+        winnerId = score1 > score2 ? match.slot1.teamId : match.slot2.teamId;
+      }
+
+      newMatches[matchId] = {
+        ...match,
+        score1,
+        score2,
+        isDraw,
+        penaltyWinnerId: isDraw ? (penaltyWinnerId ?? null) : null,
+        winnerId,
+      };
+
+      // Propagate downstream
       for (const [upMatchId, [feed1, feed2]] of Object.entries(BRACKET_FEED)) {
         const winner1 = newMatches[feed1]?.winnerId ?? null;
         const winner2 = newMatches[feed2]?.winnerId ?? null;
@@ -302,6 +365,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, step: 'share' }));
   }, []);
 
+  const loadBracket = useCallback((newState: AppState) => {
+    window.location.hash = '';
+    setState(newState);
+  }, []);
+
   const resetApp = useCallback(() => {
     window.location.hash = '';
     setState(buildInitialState());
@@ -319,9 +387,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     confirmThirdPlace,
     goBackToGroups,
     pickMatchWinner,
+    setMatchScore,
     goToShare,
     resetApp,
     recomputeBracket,
+    loadBracket,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

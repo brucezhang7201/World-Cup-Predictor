@@ -1,6 +1,7 @@
 import type { Match } from '../../types';
 import { TEAM_MAP } from '../../data/teams';
 import { useApp } from '../../context/AppContext';
+import { ScoreBubble } from './ScoreBubble';
 
 interface BracketMatchProps {
   match: Match;
@@ -10,7 +11,7 @@ interface BracketMatchProps {
 }
 
 export function BracketMatch({ match, showDate, isFinal, is3PO }: BracketMatchProps) {
-  const { pickMatchWinner, isViewOnly } = useApp();
+  const { pickMatchWinner, setMatchScore, isViewOnly } = useApp();
 
   const team1 = match.slot1.teamId ? TEAM_MAP[match.slot1.teamId] : null;
   const team2 = match.slot2.teamId ? TEAM_MAP[match.slot2.teamId] : null;
@@ -70,6 +71,14 @@ export function BracketMatch({ match, showDate, isFinal, is3PO }: BracketMatchPr
           <span className="slot-tbd">TBD</span>
         )}
       </div>
+
+      {match.winnerId && team1 && team2 && (
+        <ScoreBubble
+          match={match}
+          isViewOnly={isViewOnly}
+          onScoreChange={(s1, s2, penaltyWinnerId) => setMatchScore(match.id, s1, s2, penaltyWinnerId)}
+        />
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { buildShareUrl } from '../../utils/urlEncoding';
 import { TEAM_MAP } from '../../data/teams';
+import { SaveBracketPanel } from './SaveBracketPanel';
 
 export function SharePanel() {
   const { state, isViewOnly, resetApp } = useApp();
@@ -100,6 +101,8 @@ export function SharePanel() {
           Anyone with this link can view your bracket predictions (read-only).
         </p>
       </div>
+
+      {!isViewOnly && <SaveBracketPanel />}
 
       {!isViewOnly && (
         <div className="share-actions">

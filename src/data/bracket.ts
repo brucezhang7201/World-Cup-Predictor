@@ -64,6 +64,10 @@ export function createInitialMatches(): Record<string, Match> {
       slot1: { teamId: null },
       slot2: { teamId: null },
       winnerId: null,
+      score1: null,
+      score2: null,
+      isDraw: false,
+      penaltyWinnerId: null,
     };
   }
 
@@ -76,6 +80,10 @@ export function createInitialMatches(): Record<string, Match> {
       slot1: { teamId: null },
       slot2: { teamId: null },
       winnerId: null,
+      score1: null,
+      score2: null,
+      isDraw: false,
+      penaltyWinnerId: null,
     };
   }
 
@@ -88,6 +96,10 @@ export function createInitialMatches(): Record<string, Match> {
       slot1: { teamId: null },
       slot2: { teamId: null },
       winnerId: null,
+      score1: null,
+      score2: null,
+      isDraw: false,
+      penaltyWinnerId: null,
     };
   }
 
@@ -100,6 +112,10 @@ export function createInitialMatches(): Record<string, Match> {
       slot1: { teamId: null },
       slot2: { teamId: null },
       winnerId: null,
+      score1: null,
+      score2: null,
+      isDraw: false,
+      penaltyWinnerId: null,
     };
   }
 
@@ -110,6 +126,10 @@ export function createInitialMatches(): Record<string, Match> {
     slot1: { teamId: null },
     slot2: { teamId: null },
     winnerId: null,
+    score1: null,
+    score2: null,
+    isDraw: false,
+    penaltyWinnerId: null,
   };
 
   // 3rd place playoff
@@ -119,6 +139,10 @@ export function createInitialMatches(): Record<string, Match> {
     slot1: { teamId: null },
     slot2: { teamId: null },
     winnerId: null,
+    score1: null,
+    score2: null,
+    isDraw: false,
+    penaltyWinnerId: null,
   };
 
   return matches;

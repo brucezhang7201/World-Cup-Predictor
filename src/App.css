@@ -1013,6 +1013,124 @@ html, body {
 }
 
 /* ============================================================
+   Score Bubble
+   ============================================================ */
+.score-bubble {
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid var(--border);
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.score-inputs,
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.score-team-flag {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.score-input {
+  width: 32px;
+  padding: 2px 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.score-input::-webkit-inner-spin-button,
+.score-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input:focus {
+  border-color: var(--gold);
+}
+
+.score-input::placeholder {
+  color: #4B5563;
+}
+
+.score-separator {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.score-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 14px;
+  text-align: center;
+}
+
+.penalty-chips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.penalty-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.penalty-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  transition: all 0.15s;
+}
+
+.penalty-chip:hover {
+  border-color: var(--gold);
+}
+
+.penalty-chip.selected {
+  border-color: var(--win);
+  background: var(--win-bg);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.3);
+}
+
+.penalty-label-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.penalty-label-text {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ============================================================
    Share Panel
    ============================================================ */
 .share-panel {
@@ -1207,4 +1325,201 @@ html, body {
   .bracket-round-col {
     min-width: 140px;
   }
+}
+
+/* ============================================================
+   Auth & Modal Styles
+   ============================================================ */
+.header-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-email {
+  color: var(--text-secondary);
+  font-size: 13px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal-content {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 24px;
+  cursor: pointer;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-title {
+  color: var(--gold);
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.modal-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.modal-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.modal-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.modal-submit {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+}
+
+/* ============================================================
+   Save & My Brackets Panels
+   ============================================================ */
+.save-bracket-panel {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.save-bracket-panel h3 {
+  color: var(--gold);
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.save-form {
+  display: flex;
+  gap: 8px;
+}
+
+.save-form input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+}
+.save-form input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.save-success {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--win-bg);
+  border-radius: var(--radius-sm);
+  color: var(--win);
+  font-size: 14px;
+}
+
+.save-success a {
+  color: var(--gold);
+  word-break: break-all;
+}
+
+.my-brackets-panel {
+  padding: 20px;
+}
+
+.my-brackets-panel h2 {
+  color: var(--gold);
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.bracket-list-empty {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.bracket-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.bracket-list-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bracket-list-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.bracket-list-date {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.bracket-list-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.not-found-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.not-found-message h2 {
+  color: var(--gold);
+  margin-bottom: 8px;
 }

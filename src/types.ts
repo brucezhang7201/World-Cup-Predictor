@@ -26,6 +26,10 @@ export interface Match {
   slot1: MatchSlot;
   slot2: MatchSlot;
   winnerId: string | null;
+  score1: number | null;
+  score2: number | null;
+  isDraw: boolean;
+  penaltyWinnerId: string | null;
 }
 
 export interface BracketState {

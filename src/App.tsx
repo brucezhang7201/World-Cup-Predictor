@@ -1,4 +1,5 @@
 import { AppProvider, useApp } from './context/AppContext';
+import { AuthProvider } from './context/AuthContext';
 import { Header } from './components/Header';
 import { ProgressBar } from './components/ProgressBar';
 import { IntroScreen } from './components/Intro/IntroScreen';
@@ -51,8 +52,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </AuthProvider>
   );
 }
